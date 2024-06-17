@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Wall
+  - DestroyBullet
+  - Boss
+  - EnemyBullet
+  - PlayerBullet
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Wall
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Ground
+    uniqueID: 2131835775
+    locked: 0
+  - name: Plant
+    uniqueID: 2161985343
+    locked: 0
+  - name: Weapon
+    uniqueID: 3514463961
+    locked: 0
+  - name: Player
+    uniqueID: 3889969853
+    locked: 0
+  - name: Tree
+    uniqueID: 1630209105
+    locked: 0
+  - name: Bullet
+    uniqueID: 3629676659
+    locked: 0
+  - name: Boss
+    uniqueID: 2905673461
+    locked: 0
+  - name: Patturn
+    uniqueID: 428180353
+    locked: 0
+  - name: emetter
+    uniqueID: 30638749
+    locked: 0
