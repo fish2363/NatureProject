@@ -7,7 +7,6 @@ using DG.Tweening;
 
 public class FirstCutSceneTimeLine : MonoBehaviour
 {
-    public PlayableDirector director;
     public GameObject miniDeer;
     public GameObject startButton;
     // Start is called before the first frame update
