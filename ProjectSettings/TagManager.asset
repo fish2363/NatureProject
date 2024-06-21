@@ -9,6 +9,7 @@ TagManager:
   - Boss
   - EnemyBullet
   - PlayerBullet
+  - Trash
   layers:
   - Default
   - TransparentFX
