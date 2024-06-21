@@ -5,16 +5,16 @@ using UnityEngine.UI;
 
 public class BossHpUI : MonoBehaviour
 {
-    private Slider sliderHp;
+    [SerializeField]
+    private Slider bossSliderHp;
+    [SerializeField]
+    private Slider playerSliderHP;
 
-    private void Awake()
-    {
-        sliderHp = GetComponent<Slider>();
-    }
 
     // Update is called once per frame
     void Update()
     {
-        sliderHp.value = HpManager.bossCurrentHp;
+        bossSliderHp.value = HpManager.bossCurrentHp;
+        playerSliderHP.value = HpManager.instance.playerHp;
     }
 }

@@ -21,25 +21,27 @@ public class Bullet : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log($"{collision.name} 시발 나 쳐맞음");
+        //Debug.Log($"{collision.name} 나 맞음");
         IDamage damage = collision.GetComponent<IDamage>();
 
         //if (collision.transform.TryGetComponent(out IDamage damage))
-        if (damage != null)
+        if (damage != null && gameObject.CompareTag("PlayerBullet"))
         {
             damage.Damage(20.7f);
-            if (gameObject.CompareTag("PlayerBullet"))
-            {
-                Puah();
-            }
-            else
-                Destroy(gameObject);
+            Puah();
         }
+
 
         if (collision.CompareTag("Player"))
         {
-            HpManager.instance.PlayerDamage(4f);
-            Debug.Log("kjhgfc");
+            if (collision.gameObject.GetComponent<PlayerInput>().dash && gameObject.CompareTag("EnemyBullet"))
+                Destroy(gameObject);
+            else
+            {
+                Destroy(gameObject);
+                HpManager.instance.PlayerDamage(4f);
+                Debug.Log("플레이어 데미지 입음");
+            }
         }
 
         if (collision.CompareTag("DestroyBullet"))
@@ -54,7 +56,10 @@ public class Bullet : MonoBehaviour
         }
         else if(timer > deathTime)
         {
-            Puah();
+            if (gameObject.CompareTag("PlayerBullet"))
+                Puah();
+            else
+                Destroy(gameObject);
         }
     }
 

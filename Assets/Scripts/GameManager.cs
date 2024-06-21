@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance = null;
-    public static bool isStop = false;
+    public static GameManager instance;
+    public bool isStop = false;
     public static GameObject player;
-    public static Rigidbody2D playerRigid;
+    public Rigidbody2D playerRigid;
 
     private void Awake()
     {
-        if(instance = null)
+        if(instance == null)
         {
             instance = this;
             DontDestroyOnLoad(gameObject);

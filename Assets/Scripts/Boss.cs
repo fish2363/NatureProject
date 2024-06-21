@@ -31,6 +31,24 @@ public class Boss : MonoBehaviour, IDamage
     private float grabDuration = 6f;
     [SerializeField]
     private GameObject trashPrefab;
+    [SerializeField]
+    private GameObject trashEmetter;
+    [SerializeField]
+    private float trashCrashDamage;
+
+    [Header("돌진 설정값")]
+    [SerializeField]
+    private Transform bossPoint;
+    [SerializeField]
+    private float dashDamage;
+
+    [Header("웨이브 슛 설정값")]
+    [SerializeField]
+    private int waveCount;
+    [SerializeField]
+    private float waveShotWaitTime;
+    [SerializeField]
+    private List<Transform> firstSpawnPoint;
 
 
     [Header("보스 기본 설정값")]
@@ -38,8 +56,6 @@ public class Boss : MonoBehaviour, IDamage
     private int pattern = 0;
     [SerializeField]
     private float bossHp = 50000f;
-    [SerializeField]
-    private float dashDamage = 0f;
     [SerializeField]
     private int minPatternCount;
     [SerializeField]
@@ -61,36 +77,41 @@ public class Boss : MonoBehaviour, IDamage
     }
 
 
-    public void DashAttack(Collider2D collision)
+    public void DashAttack(Collision2D collision)
     {
-        dashDamage = 25f;
-        if(collision.CompareTag("Player"))
-        {
             HpManager.instance.playerHp -= dashDamage;
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Trash trash = collision.gameObject.GetComponent<Trash>();
+
+        if (trash != null)
+        {
+            print("쓰레기 충돌");
+            Damage(trashCrashDamage);
+            Instantiate(trashEmetter, trash.transform);
         }
+        else if (collision.gameObject.CompareTag("Player"))
+            DashAttack(collision);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        DashAttack(other);
-    }
 
     public void Damage(float damage)
     {
         HpManager.bossCurrentHp -= damage;
+        bossHp -= damage;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        //pattern = Random.Range(1, 5);
+        RandomPatturn();
     }
 
     // Update is called once per frame
     void Update()
     {
-        print($"보스 남은 체력 : {bossHp}");
-        
+            
         if(!wait)
         {
             switch(pattern)
@@ -107,12 +128,19 @@ public class Boss : MonoBehaviour, IDamage
                     PatternThree();
                     wait = true;
                     break;
+                case 4:
+                    PatternFour();
+                    wait = true;
+                    break;
             }
         }
 
     }
 
-    
+    private void PatternFour()
+    {
+        StartCoroutine(WaveShot());
+    }
 
     private void PatternTwo()
     {
@@ -143,9 +171,8 @@ public class Boss : MonoBehaviour, IDamage
         }
         shotGunCount = 7;
         print("패턴 끝");
-        wait = false;
         yield return new WaitForSecondsRealtime(6f);
-        pattern = Random.Range(minPatternCount, maxPatternCount);
+        RandomPatturn();
     }
 
     IEnumerator FallGrab()
@@ -204,22 +231,64 @@ public class Boss : MonoBehaviour, IDamage
         yield return new WaitForSecondsRealtime(1f);
         Destroy(trash);
         print("패턴2 끝");
-        wait = false;
-        pattern = Random.Range(minPatternCount, maxPatternCount);
+        RandomPatturn();
     }
+
 
     IEnumerator DashDamage()
     {
         yield return new WaitForSecondsRealtime(3f);
         gameObject.transform.DOMoveY(10, 3);
-        StartCoroutine(Padong(gameObject));
         yield return new WaitForSecondsRealtime(3f);
+        StartCoroutine(PadongObject(gameObject));
         gameObject.transform.DOKill(true);
         gameObject.transform.DOMoveY(2, 3);
         yield return new WaitForSecondsRealtime(3f);
         gameObject.transform.DOKill(true);
-        gameObject.transform.DOMoveY(10, 3);
+        gameObject.transform.DOMove(bossPoint.position, 3);
+        StartCoroutine(PadongObject(gameObject));
+
         //Padong(gameObject);
         yield return new WaitForSecondsRealtime(3f);
+        RandomPatturn();
+    }
+
+    private IEnumerator PadongObject(GameObject obj)
+    {
+        int count = 15;
+        float intervalAngle = 360 / count;
+        float weightAngle = 0f;
+
+
+        for (int i = 0; i < count; ++i)
+        {
+            GameObject clone = Instantiate(enemyBullet, obj.transform.position, Quaternion.identity);
+            float angle = weightAngle + intervalAngle * i;
+            float x = Mathf.Cos(angle * Mathf.PI / 180.0f);
+            float y = Mathf.Sin(angle * Mathf.PI / 180.0f);
+            clone.GetComponent<Bullet>().MoveTo(new Vector2(x, y));
+
+        }
+
+        weightAngle += 1;
+        yield return new WaitForSecondsRealtime(1f);
+    }
+
+    private void RandomPatturn()
+    {
+        wait = false;
+        pattern = Random.Range(minPatternCount, maxPatternCount);
+    }
+
+    private IEnumerator WaveShot()
+    {
+        for(int i =0; i < waveCount; i++)
+        {
+            GameObject waveShotGun = Instantiate(shotGunPrefab, firstSpawnPoint[i].position, Quaternion.identity);
+            yield return new WaitForSecondsRealtime(waveShotWaitTime);
+            Destroy(waveShotGun);
+        }
+        yield return new WaitForSecondsRealtime(3f);
+        RandomPatturn();
     }
 }

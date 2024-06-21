@@ -11,15 +11,15 @@ public class PlayerInput : MonoBehaviour
     public event Action OnFireButtonPressed;
     public event Action OnFireButtonReleased;
     public event Action OnDash;
-    [SerializeField] private Vector2 boxSize;
     public bool dash = false;
-    public LayerMask Wall;
     public GameObject player;
     private Animator animator;
     private bool dead;
+    private Rigidbody2D rigid;
 
     private void Awake()
     {
+        rigid = GetComponent<Rigidbody2D>();
         animator = GameObject.Find("Sprite").GetComponent<Animator>();
     }
 
@@ -32,20 +32,15 @@ public class PlayerInput : MonoBehaviour
     {
         animator.SetBool("Death", true);
         dead = true;
+        moveDir = Vector2.zero;
     }
 
     // Update is called once per frame
     void Update()
     {
-            animator.SetBool("Dash", dash);
+        animator.SetBool("Dash", dash);
 
-        Collider2D[] DashDefenser = Physics2D.OverlapBoxAll(gameObject.transform.position, boxSize, 0, Wall);
-        if(DashDefenser.Length != 0)
-        {
-            print($"{DashDefenser[0].name} : name");
-            print($"{DashDefenser.Length} : Count");
-            EndDash();
-        }
+        
 
         if(!dead)
         {
@@ -53,19 +48,6 @@ public class PlayerInput : MonoBehaviour
             GetFireInput();
             GetPointer();
         }
-    }
-
-    public void EndDash()
-    {
-        dash = false;
-        GameManager.isStop = false;
-    }
-
-    void OnDrawGizmos() // 범위 그리기
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(transform.position, boxSize);/*
-        Gizmos.DrawWireSphere(transform.position, 4f);*/
     }
 
     public void GetPointer() //마우스 좌표 방지
@@ -97,6 +79,7 @@ public class PlayerInput : MonoBehaviour
             animator.SetBool("Walk", true);
         else
             animator.SetBool("Walk", false);
+
 
         moveDir = new Vector2(x, y).normalized;
     }

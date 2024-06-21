@@ -16,7 +16,7 @@ TagManager:
   - Wall
   - Water
   - UI
-  - 
+  - EnemyLayer
   - 
   - 
   - 
@@ -55,6 +55,9 @@ TagManager:
   - name: Weapon
     uniqueID: 3514463961
     locked: 0
+  - name: Boss
+    uniqueID: 2905673461
+    locked: 0
   - name: Player
     uniqueID: 3889969853
     locked: 0
@@ -63,9 +66,6 @@ TagManager:
     locked: 0
   - name: Bullet
     uniqueID: 3629676659
-    locked: 0
-  - name: Boss
-    uniqueID: 2905673461
     locked: 0
   - name: Patturn
     uniqueID: 428180353

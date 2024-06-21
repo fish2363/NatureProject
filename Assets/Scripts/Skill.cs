@@ -8,12 +8,15 @@ public class Skill : MonoBehaviour
     private PlayerInput playerInput;
     private Vector2 mousePosition;
     private PlayerMove playerMove;
-    private float speed = 1f;
+    private float speed = 3f;
     private float currentAngle;
     private float targetAngle;
     private bool isR;
     [SerializeField] private float angleSpeed;
     Rigidbody2D rigid;
+
+    [SerializeField] private Vector2 boxSize;
+    [SerializeField] private LayerMask whatIsWall;
 
     void Start()
     {
@@ -34,16 +37,55 @@ public class Skill : MonoBehaviour
 
     private void Update()
     {
+        Dashing();
+
+        Collider2D[] DashDefenser = Physics2D.OverlapBoxAll(gameObject.transform.position, boxSize, 0, whatIsWall);
+        if (DashDefenser.Length != 0)
+        {
+            for(int i = 0; i < DashDefenser.Length; i++)
+            {
+                if(DashDefenser[i].gameObject.CompareTag("Boss"))
+                {
+                    print("돌진 박음");
+                    //보스 데미지 추가
+                    StartCoroutine(EndDash());
+                }
+                else
+                    StartCoroutine(EndDash());
+            }
+            print($"{DashDefenser[0].name} : name");
+            print($"{DashDefenser.Length} : Count");
+
+        }
+    }
+
+    public IEnumerator EndDash()
+    {
+        playerInput.dash = false;
+        rigid.AddForce(-mousePosition.normalized * 2f, ForceMode2D.Impulse);
+        yield return new WaitForSecondsRealtime(0.2f);
+        GameManager.instance.isStop = false;
+        //GameManager.instance.playerRigid.AddForce
+    }
+
+    void OnDrawGizmos() // 범위 그리기
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(transform.position, boxSize);/*
+        Gizmos.DrawWireSphere(transform.position, 4f);*/
+    }
+
+    private void Dashing()
+    {
         if (playerInput.dash)
         {
-            print("돌진");
             playerInput.moveDir = new Vector3(mousePosition.x, mousePosition.y) - transform.position;
 
-            speed += Time.deltaTime * 1.3f;
+            speed += Time.deltaTime * 2f;
             rigid.velocity = playerInput.moveDir.normalized * speed;
-            if (mousePosition == new Vector2(transform.position.x, transform.position.y))
+            if (speed > 12)
             {
-                playerInput.EndDash();
+               StartCoroutine(EndDash());
             }
             //////Vector2 angle = new Vector3(mousePosition.x, mousePosition.y) - transform.position;
 
@@ -73,15 +115,14 @@ public class Skill : MonoBehaviour
         }
         else
         {
-            speed = 0f;
+            speed = 3f;
         }
     }
 
     private void Daash()
     {
-        GameManager.isStop = true;
+        GameManager.instance.isStop = true;
         playerInput.dash = true;
-        Debug.Log(mousePosition * 10f);
         //for(int i = 0; i < 7; i++)
         //rigid.AddForce(mousePosition * 3f);
     }

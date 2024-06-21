@@ -16,12 +16,15 @@ public class FirstCutSceneTimeLine : MonoBehaviour
 
     public void SizeUp()
     {
-        miniDeer.GetComponent<SpriteRenderer>().sortingOrder = 8;
+        miniDeer.GetComponent<SpriteRenderer>().sortingOrder = 10;
 
         Sequence seq = DOTween.Sequence();
 
         seq.Prepend(miniDeer.transform.DOScale(new Vector3(80, 80, 80), 0.6f));
+        StartCoroutine(CameraShakingManager.instance.ShakeCamera(1,3,0.5f));
     }
+
+
 
     public void HideOnButton()
     {

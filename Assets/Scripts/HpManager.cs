@@ -10,7 +10,7 @@ public interface IDamage
 
 public class HpManager : MonoBehaviour
 {
-    public static HpManager instance = null;
+    public static HpManager instance;
     public float playerHp = 100f;
     public static event Action OnDeath;
 

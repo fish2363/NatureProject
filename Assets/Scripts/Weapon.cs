@@ -39,6 +39,7 @@ public class Weapon : MonoBehaviour
     private void Update()
     {
         FireWeapon();
+        
 
         if(isShooting && bulletPool.Count < 6)
         {
@@ -95,7 +96,10 @@ public class Weapon : MonoBehaviour
 
     private void TryShooting()
     {
-        isShooting = true;
+        if (!(input.dash))
+        {
+            isShooting = true;
+        }
     }
 
     private void StopShooting()
