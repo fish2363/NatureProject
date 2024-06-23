@@ -163,4 +163,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   qaung: 0
   movingSpeed: 0.04
-  damage: 8
+  returnDamage: 8

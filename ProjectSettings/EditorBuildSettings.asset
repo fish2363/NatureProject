@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BossRun.unity
     guid: caedb519806bab642b836a6e483d399f
+  - enabled: 1
+    path: Assets/Scenes/Ending.unity
+    guid: 9d37a505b52370c41b64a9bd143d9b29
   m_configObjects: {}

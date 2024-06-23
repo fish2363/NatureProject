@@ -204,6 +204,7 @@ public class Boss : MonoBehaviour, IDamage
         yield return new WaitForSecondsRealtime(3f);
         grabSprite.DOFade(0, 1);
         trashCollider.enabled = true;
+        trash.GetComponent<SpriteRenderer>().sortingLayerID = 9;
         StartCoroutine(Padong(trash));
     }
 

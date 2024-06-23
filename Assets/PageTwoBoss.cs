@@ -52,7 +52,7 @@ public class PageTwoBoss : MonoBehaviour
         }
     }
 
-    private IEnumerator PatturnThree(float str)
+    public IEnumerator PatturnThree(float str)
     {
         shotGunSkill.SetActive(true);
         yield return new WaitForSecondsRealtime(str);
@@ -60,7 +60,7 @@ public class PageTwoBoss : MonoBehaviour
         StartCoroutine(Patturn(randPatturn));
     }
 
-    private IEnumerator PatturnTwo(float str)
+    public IEnumerator PatturnTwo(float str)
     {
         print("∆–≈œ2");
         yield return new WaitForSecondsRealtime(str + 3f);
@@ -70,7 +70,7 @@ public class PageTwoBoss : MonoBehaviour
         StartCoroutine(Patturn(randPatturn));
     }
 
-    private IEnumerator PatturnOne(float strengh)
+    public IEnumerator PatturnOne(float strengh)
     {
         gameObject.transform.DOMoveY(Random.Range(0.4f,0.7f),  2f);
         yield return new WaitForSecondsRealtime(strengh + 3f);

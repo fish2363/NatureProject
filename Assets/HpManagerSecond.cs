@@ -19,7 +19,15 @@ public class HpManagerSecond : MonoBehaviour
     private PlayableDirector director;
     [SerializeField]
     private CinemachineVirtualCamera cameraBossFinish;
+    [SerializeField]
+    private CinemachineVirtualCamera deathCamera;
+    [SerializeField]
+    private GameObject[] endSetting;
     private bool oneTime = false;
+    [SerializeField]
+    private GameObject oneJum;
+    [SerializeField]
+    private Animator animator;
 
     private void Awake()
     {
@@ -27,7 +35,10 @@ public class HpManagerSecond : MonoBehaviour
             instance = this;
     }
 
-    public object OnDeath { get; private set; }
+    private void Start()
+    {
+        deathCamera.gameObject.SetActive(false);
+    }
 
     // Update is called once per frame
     void Update()
@@ -35,7 +46,7 @@ public class HpManagerSecond : MonoBehaviour
         if (playerHp < 1)
         {
             OnDeathSecond?.Invoke();
-            StartCoroutine(DeathBoss());
+            StartCoroutine(Death());
         }
 
         if(PageTwoBoss.myHp < 1 && !oneTime)
@@ -47,11 +58,23 @@ public class HpManagerSecond : MonoBehaviour
 
     private IEnumerator DeathBoss()
     {
+        playerHp = 1000f;
         black.DOFade(1, 1);
         yield return new WaitForSecondsRealtime(1f);
+
+        endSetting[0].GetComponent<MoveGround>().enabled =false;
+        endSetting[1].GetComponent<MoveGround>().enabled =false;
+
+        for (int i = 2; i < 12; i++)
+            endSetting[i].GetComponent<MovingTree>().enabled = false;
+        endSetting[12].SetActive(false);
+        endSetting[13].GetComponent<PageTwoBoss>().enabled = false;
+        endSetting[13].GetComponent<PageTwoBoss>().StopAllCoroutines();
+        endSetting[13].gameObject.transform.DOMove(new Vector3(oneJum.transform.position.x, oneJum.transform.position.y, 0), 1f);
+
         black.DOFade(0, 1);
-        yield return new WaitForSecondsRealtime(1f);
         director.Play();
+        yield return new WaitForSecondsRealtime(1f);
         cameraBossFinish.gameObject.transform.DOShakePosition(3, 2);
     }
 
@@ -63,11 +86,25 @@ public class HpManagerSecond : MonoBehaviour
 
     private IEnumerator Death()
     {
-        black.DOFade(1, 1);
-        PageTwoBoss.myHp = 2000f;
-        playerHp = 100f;
+        animator.SetBool("OnDeath", true);
+        deathCamera.gameObject.SetActive(true);
+        black.DOFade(1, 4);
         yield return new WaitForSecondsRealtime(5f);
-
+        animator.SetBool("OnDeath", false);
+        PageTwoBoss.myHp = 4000f;
+        playerHp = 100f;
         SceneManager.LoadScene("BossRun");
+    }
+
+    public void Fade()
+    {
+        StartCoroutine(FadeOn());
+    }
+
+    private IEnumerator FadeOn()
+    {
+        black.DOFade(1, 1);
+        yield return new WaitForSecondsRealtime(3f);
+        SceneManager.LoadScene("Ending");
     }
 }

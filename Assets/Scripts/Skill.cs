@@ -55,7 +55,7 @@ public class Skill : MonoBehaviour
                     //보스 데미지 추가
                     StartCoroutine(EndDash());
                 }
-                else
+                else if (DashDefenser[i].gameObject.CompareTag("Wall"))
                     StartCoroutine(EndDash());
             }
 
@@ -67,7 +67,6 @@ public class Skill : MonoBehaviour
         playerInput.dash = false;
         rigid.AddForce(-mousePosition.normalized * 2f, ForceMode2D.Impulse);
         yield return new WaitForSecondsRealtime(0.2f);
-        GameManager.instance.isStop = false;
         CoolTime = 0f;
         PlayerInput.dashCoolTime = true;
         //GameManager.instance.playerRigid.AddForce
@@ -136,7 +135,6 @@ public class Skill : MonoBehaviour
 
     private void Daash()
     {
-        GameManager.instance.isStop = true;
         playerInput.dash = true;
         //for(int i = 0; i < 7; i++)
         //rigid.AddForce(mousePosition * 3f);

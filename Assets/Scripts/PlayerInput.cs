@@ -103,7 +103,7 @@ public class PlayerInput : MonoBehaviour
             if (!pageSecond)
                 animator.SetBool("Walk", false);
         }
-        else
+        else if(!dash)
         {
             float x = Input.GetAxisRaw("Horizontal");
             float y = Input.GetAxisRaw("Vertical");

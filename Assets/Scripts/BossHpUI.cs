@@ -14,6 +14,9 @@ public class BossHpUI : MonoBehaviour
     [SerializeField]
     private Slider hunterBoss;
 
+    [SerializeField]
+    private bool isEnbled;
+
 
     // Update is called once per frame
     void Update()
@@ -21,6 +24,7 @@ public class BossHpUI : MonoBehaviour
         skillSliderCool.value = Skill.CoolTime;
         bossSliderHp.value = HpManager.bossCurrentHp;
         playerSliderHP.value = HpManager.instance.playerHp;
-        hunterBoss.value = Hunter.myHp;
+        if(!isEnbled)
+            hunterBoss.value = Hunter.myHp;
     }
 }
