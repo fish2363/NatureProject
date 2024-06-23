@@ -10,6 +10,9 @@ TagManager:
   - EnemyBullet
   - PlayerBullet
   - Trash
+  - Enemy
+  - Stone
+  - TrashDester
   layers:
   - Default
   - TransparentFX
@@ -18,8 +21,8 @@ TagManager:
   - Water
   - UI
   - EnemyLayer
-  - 
-  - 
+  - Stone
+  - TrashEnemy
   - 
   - 
   - 
@@ -58,6 +61,9 @@ TagManager:
     locked: 0
   - name: Boss
     uniqueID: 2905673461
+    locked: 0
+  - name: Trash
+    uniqueID: 4271703311
     locked: 0
   - name: Player
     uniqueID: 3889969853

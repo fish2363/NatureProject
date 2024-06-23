@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class SceneChanger : MonoBehaviour
 {
     public Image fadeIn;
+    public string sceneName;
     public void StartScene()
     {
         fadeIn.gameObject.SetActive(true);
@@ -17,6 +18,6 @@ public class SceneChanger : MonoBehaviour
     private IEnumerator GameStart()
     {
         yield return new WaitForSecondsRealtime(2f);
-        SceneManager.LoadScene("BossStage");
+        SceneManager.LoadScene(sceneName);
     }
 }

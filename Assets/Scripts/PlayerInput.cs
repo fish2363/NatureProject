@@ -14,18 +14,36 @@ public class PlayerInput : MonoBehaviour
     public bool dash = false;
     public GameObject player;
     private Animator animator;
+    private Animator animator2;
     private bool dead;
     private Rigidbody2D rigid;
+    public static bool dashCoolTime;
+    [SerializeField]
+    private bool pageSecond;
 
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
-        animator = GameObject.Find("Sprite").GetComponent<Animator>();
+        if(!pageSecond)
+            animator = GameObject.Find("Sprite").GetComponent<Animator>();
+        else
+            animator2 = GameObject.Find("Sprite").GetComponent<Animator>();
     }
 
     private void Start()
     {
-        HpManager.OnDeath += Death;
+        if(pageSecond)
+            HpManagerSecond.OnDeathSecond += DeathSecond;
+        else
+            HpManager.OnDeath += Death;
+
+    }
+
+    private void DeathSecond()
+    {
+        animator2.SetBool("Death", true);
+        dead = true;
+        moveDir = Vector2.zero;
     }
 
     private void Death()
@@ -38,7 +56,8 @@ public class PlayerInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        animator.SetBool("Dash", dash);
+        if (!pageSecond)
+            animator.SetBool("Dash", dash);
 
         
 
@@ -54,8 +73,6 @@ public class PlayerInput : MonoBehaviour
     {
         Vector2 mouseXY = Camera.main.ScreenToWorldPoint(Input.mousePosition);//스크린을 월드 좌표계로 바꾼다
         MouseXY?.Invoke(mouseXY);
-
-
     }
 
     public void GetFireInput()
@@ -65,22 +82,42 @@ public class PlayerInput : MonoBehaviour
             OnFireButtonPressed?.Invoke();
         else if (Input.GetButtonUp("Fire1"))
             OnFireButtonReleased?.Invoke();
-        else if (Input.GetKeyDown(KeyCode.R) && dash == false)
-            OnDash?.Invoke();
+
+        if(!pageSecond)
+        {
+            if (Input.GetKeyDown(KeyCode.R) && dash == false && !dashCoolTime)
+            {
+                OnDash?.Invoke();
+                dashCoolTime = true;
+            }
+        }
 
     }
 
     private void MoveInput()
     {
-        float x = Input.GetAxisRaw("Horizontal");
-        float y = Input.GetAxisRaw("Vertical");
+        if(GameManager.instance.isStop)
+        {
+            moveDir = Vector2.zero;
 
-        if (x != 0 || y != 0)
-            animator.SetBool("Walk", true);
+            if (!pageSecond)
+                animator.SetBool("Walk", false);
+        }
         else
-            animator.SetBool("Walk", false);
+        {
+            float x = Input.GetAxisRaw("Horizontal");
+            float y = Input.GetAxisRaw("Vertical");
+
+            if (!pageSecond)
+            {
+                if (x != 0 || y != 0)
+                    animator.SetBool("Walk", true);
+                else
+                    animator.SetBool("Walk", false);
+            }
 
 
-        moveDir = new Vector2(x, y).normalized;
+            moveDir = new Vector2(x, y).normalized;
+        }
     }
 }

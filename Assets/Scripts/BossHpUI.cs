@@ -8,13 +8,19 @@ public class BossHpUI : MonoBehaviour
     [SerializeField]
     private Slider bossSliderHp;
     [SerializeField]
-    private Slider playerSliderHP;
+    private Slider playerSliderHP;    
+    [SerializeField]
+    private Slider skillSliderCool;
+    [SerializeField]
+    private Slider hunterBoss;
 
 
     // Update is called once per frame
     void Update()
     {
+        skillSliderCool.value = Skill.CoolTime;
         bossSliderHp.value = HpManager.bossCurrentHp;
         playerSliderHP.value = HpManager.instance.playerHp;
+        hunterBoss.value = Hunter.myHp;
     }
 }

@@ -96,7 +96,7 @@ public class Weapon : MonoBehaviour
 
     private void TryShooting()
     {
-        if (!(input.dash))
+        if (!(input.dash) && !(GameManager.instance.noGun))
         {
             isShooting = true;
         }

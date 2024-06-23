@@ -31,6 +31,10 @@ public class Bullet : MonoBehaviour
             Puah();
         }
 
+        if (collision.CompareTag("Enemy") &&gameObject.CompareTag("PlayerBullet"))
+        {
+            Puah();
+        }
 
         if (collision.CompareTag("Player"))
         {

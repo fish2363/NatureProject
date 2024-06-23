@@ -7,7 +7,6 @@ public class PlayerMove : MonoBehaviour
     PlayerInput playerInput;
     Rigidbody2D rigid;
 
-    PhysicMaterial iuhg;
 
     [Header("플레이어 스탯")]
     [SerializeField]
@@ -24,11 +23,7 @@ public class PlayerMove : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(!GameManager.instance.isStop)
-        {
-            print("나 움직이는 중");
             rigid.velocity = playerInput.moveDir * moveSpeed;
-        }
     }
 
 }

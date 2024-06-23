@@ -11,7 +11,9 @@ public class Skill : MonoBehaviour
     private float speed = 3f;
     private float currentAngle;
     private float targetAngle;
-    private bool isR;
+    [SerializeField]
+    public static float CoolTime { get; private set; } = 7f;
+
     [SerializeField] private float angleSpeed;
     Rigidbody2D rigid;
 
@@ -37,7 +39,10 @@ public class Skill : MonoBehaviour
 
     private void Update()
     {
+
         Dashing();
+        CoolTimeDash();
+
 
         Collider2D[] DashDefenser = Physics2D.OverlapBoxAll(gameObject.transform.position, boxSize, 0, whatIsWall);
         if (DashDefenser.Length != 0)
@@ -53,8 +58,6 @@ public class Skill : MonoBehaviour
                 else
                     StartCoroutine(EndDash());
             }
-            print($"{DashDefenser[0].name} : name");
-            print($"{DashDefenser.Length} : Count");
 
         }
     }
@@ -65,7 +68,19 @@ public class Skill : MonoBehaviour
         rigid.AddForce(-mousePosition.normalized * 2f, ForceMode2D.Impulse);
         yield return new WaitForSecondsRealtime(0.2f);
         GameManager.instance.isStop = false;
+        CoolTime = 0f;
+        PlayerInput.dashCoolTime = true;
         //GameManager.instance.playerRigid.AddForce
+    }
+
+    private void CoolTimeDash()
+    {
+        if(CoolTime < 7)
+        {
+            CoolTime += Time.deltaTime;
+        }
+        else if(CoolTime > 6)
+            PlayerInput.dashCoolTime = false;
     }
 
     void OnDrawGizmos() // 범위 그리기

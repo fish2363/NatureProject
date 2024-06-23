@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public bool isStop = false;
+    public bool noGun;
     public static GameObject player;
     public Rigidbody2D playerRigid;
 
