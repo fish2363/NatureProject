@@ -35,7 +35,7 @@ public class PlayerInput : MonoBehaviour
         if(pageSecond)
             HpManagerSecond.OnDeathSecond += DeathSecond;
         else
-            HpManager.OnDeath += Death;
+            HpManager.instance.OnDeath += Death;
 
     }
 
@@ -71,7 +71,7 @@ public class PlayerInput : MonoBehaviour
 
     public void GetPointer() //마우스 좌표 방지
     {
-        Vector2 mouseXY = Camera.main.ScreenToWorldPoint(Input.mousePosition);//스크린을 월드 좌표계로 바꾼다
+        Vector2 mouseXY = Camera.main .ScreenToWorldPoint(Input.mousePosition);//스크린을 월드 좌표계로 바꾼다
         MouseXY?.Invoke(mouseXY);
     }
 

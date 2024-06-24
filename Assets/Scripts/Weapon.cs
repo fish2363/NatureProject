@@ -72,7 +72,7 @@ public class Weapon : MonoBehaviour
 
     public void MouseXY(Vector2 mouseXY)
     {
-        bulletDir = mouseXY - new Vector2(transform.position.x, transform.position.y);
+        bulletDir = mouseXY - new Vector2(transform.root.position.x, transform.root.position.y);
         bulletDir = bulletDir.normalized;
     }
 

@@ -15,6 +15,7 @@ public class GameChatManager : MonoBehaviour
     public GameObject mainCamera;
     public GameObject trashCamera;
     public GameObject shotGunCamera;
+    public GameObject endCamera;
 
     public static void TMPD0Text(TextMeshProUGUI text, float duration)
     {
@@ -37,6 +38,7 @@ public class GameChatManager : MonoBehaviour
         chatBox.SetActive(false);
         GameManager.instance.isStop = false;
         trashCamera.SetActive(false);
+        endCamera.SetActive(false);
         mainCamera.SetActive(true);
     }
 }

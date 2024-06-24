@@ -17,6 +17,13 @@ public class HunterBoss : MonoBehaviour
     private GameObject c;
     [SerializeField]
     private GameObject rc;
+    [SerializeField]
+    private GameObject plCam;
+    [SerializeField]
+    private GameObject block;
+    [SerializeField]
+    private GameObject chatHelper;
+
 
     private void Awake()
     {
@@ -30,10 +37,14 @@ public class HunterBoss : MonoBehaviour
 
     public void End()
     {
+        StopAllCoroutines();
         dd.SetActive(false);
         dd2.SetActive(false);
         rc.SetActive(false);
         c.SetActive(true);
+        plCam.SetActive(false);
+        block.SetActive(false);
+        chatHelper.SetActive(true);
     }
 
     private void HunterAttack()

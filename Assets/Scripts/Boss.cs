@@ -27,7 +27,7 @@ public class Boss : MonoBehaviour, IDamage
     [Header("집게 설정값")]
     [SerializeField]
     private Transform grabTrans;
-    private SpriteRenderer grabSprite;
+    public SpriteRenderer grabSprite;
     private float grabDuration = 6f;
     [SerializeField]
     private GameObject trashPrefab;
@@ -37,8 +37,7 @@ public class Boss : MonoBehaviour, IDamage
     private float trashCrashDamage;
 
     [Header("돌진 설정값")]
-    [SerializeField]
-    private Transform bossPoint;
+    public Transform bossPoint;
     [SerializeField]
     private float dashDamage;
 
@@ -60,6 +59,7 @@ public class Boss : MonoBehaviour, IDamage
     private int minPatternCount;
     [SerializeField]
     private int maxPatternCount;
+    public bool grabStop = false;
 
     private void Awake()
     {
@@ -99,7 +99,6 @@ public class Boss : MonoBehaviour, IDamage
     public void Damage(float damage)
     {
         HpManager.bossCurrentHp -= damage;
-        bossHp -= damage;
     }
 
     // Start is called before the first frame update
@@ -184,7 +183,7 @@ public class Boss : MonoBehaviour, IDamage
         trashRender.DOFade(1, 2);
         trashCollider.enabled = false;
 
-        while(grabDuration > time)
+        while(grabDuration > time || grabStop)
         {
             grabTrans.SetParent(player.transform);
             trash.transform.position = grabTrans.position;
@@ -204,7 +203,7 @@ public class Boss : MonoBehaviour, IDamage
         yield return new WaitForSecondsRealtime(3f);
         grabSprite.DOFade(0, 1);
         trashCollider.enabled = true;
-        trash.GetComponent<SpriteRenderer>().sortingLayerID = 9;
+        trash.GetComponent<SpriteRenderer>().sortingLayerName = "Player";
         StartCoroutine(Padong(trash));
     }
 

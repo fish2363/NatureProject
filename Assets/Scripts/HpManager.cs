@@ -3,10 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Timeline;
-using UnityEngine.Playables;
-using DG.Tweening;
-using UnityEngine.SceneManagement;
 
 public interface IDamage
 {
@@ -17,10 +13,9 @@ public class HpManager : MonoBehaviour
 {
     public static HpManager instance;
     public float playerHp = 100f;
-    public static event Action OnDeath;
-    public Image black;
-    [SerializeField]
-    private PlayableDirector director;
+    public Action OnDeath;
+    protected Image black;
+    public Action winBoss;
 
     [SerializeField]
     public static float bossMaxHp;
@@ -31,10 +26,10 @@ public class HpManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
             Destroy(gameObject);
+
     }
 
     public void PlayerDamage(float damage)
@@ -48,20 +43,10 @@ public class HpManager : MonoBehaviour
         if(playerHp < 1)
         {
             OnDeath?.Invoke();
-            StartCoroutine(Death());
         }
         if(bossCurrentHp < 1)
         {
-            director.Play();
+            winBoss?.Invoke();
         }
-    }
-    private IEnumerator Death()
-    {
-        black.DOFade(1, 1);
-        bossCurrentHp = bossMaxHp;
-        playerHp = 100f;
-        yield return new WaitForSecondsRealtime(5f);
-
-        SceneManager.LoadScene("BossStage");
     }
 }

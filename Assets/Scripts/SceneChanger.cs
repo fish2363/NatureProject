@@ -9,6 +9,12 @@ public class SceneChanger : MonoBehaviour
 {
     public Image fadeIn;
     public string sceneName;
+
+    private void Start()
+    {
+
+    }
+
     public void StartScene()
     {
         fadeIn.gameObject.SetActive(true);
@@ -20,4 +26,10 @@ public class SceneChanger : MonoBehaviour
         yield return new WaitForSecondsRealtime(2f);
         SceneManager.LoadScene(sceneName);
     }
+
+    public void Exit()
+    {
+        Application.Quit();
+    }
+
 }

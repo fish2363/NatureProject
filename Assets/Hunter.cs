@@ -9,8 +9,6 @@ public class Hunter : MonoBehaviour
     [SerializeField]
     private GameObject enemyBullet;
 
-    [SerializeField]
-    private GameObject gun;
 
     private GameObject player;
     private Vector2 playerPos;
@@ -37,7 +35,6 @@ public class Hunter : MonoBehaviour
     {
         if(myHp < 1)
         {
-            gameObject.GetComponent<SpriteRenderer>().DOFade(0, 1);
             StartCoroutine(DestroyMe());
         }
     }
@@ -64,6 +61,7 @@ public class Hunter : MonoBehaviour
 
     private IEnumerator DestroyMe()
     {
+        gameObject.GetComponent<SpriteRenderer>().DOFade(0, 1);
         yield return new WaitForSecondsRealtime(0.5f);
         hun.End();
         Destroy(gameObject);

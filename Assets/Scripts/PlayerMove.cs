@@ -23,6 +23,7 @@ public class PlayerMove : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(playerInput.dash == false)
             rigid.velocity = playerInput.moveDir * moveSpeed;
     }
 

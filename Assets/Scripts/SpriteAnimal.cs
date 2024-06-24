@@ -15,6 +15,7 @@ public class SpriteAnimal : MonoBehaviour
 
     public void Filp(Vector2 mouse)
     {
-        sprite.flipX = (mouse.x > 0) ? true : false;
+        Vector2 dir = mouse - (Vector2)transform.root.position;
+        sprite.flipX = dir.x > 0;
     }
 }

@@ -11,7 +11,7 @@ public class MoveGround : MonoBehaviour
     {
         gameObject.transform.position += new Vector3(0, movingSpeed, 0);
 
-        if(gameObject.transform.position.y > 1)
+        if(gameObject.transform.position.y > 8)
         {
             transform.position = new Vector3(-2.8f, -15f, 0);
         }

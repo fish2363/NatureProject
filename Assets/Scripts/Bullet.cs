@@ -27,7 +27,7 @@ public class Bullet : MonoBehaviour
         //if (collision.transform.TryGetComponent(out IDamage damage))
         if (damage != null && gameObject.CompareTag("PlayerBullet"))
         {
-            damage.Damage(20.7f);
+            damage.Damage(20.7f); //20.7f
             Puah();
         }
 

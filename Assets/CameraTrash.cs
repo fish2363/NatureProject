@@ -8,7 +8,7 @@ public class CameraTrash : GameChatManager
 
     [SerializeField]
     private float duration;
-
+    public GameObject cloud;
     private string trashChat = "쓰레기가 길을 막고 있다    _1개정도는 밀 수 있을것 같은데   ";
 
     private void Awake()
@@ -24,6 +24,7 @@ public class CameraTrash : GameChatManager
             mainCamera.SetActive(false);
             trashCamera.SetActive(true);
             StartCoroutine(Typing(trashChat.Split("_"), 2f));
+            cloud.SetActive(true);
         }
     }
 }
